@@ -6,17 +6,19 @@ RUN apt-get update -qq && apt-get install -y nodejs default-mysql-client
 # 作業ディレクトリを作成
 WORKDIR /app
 
-# GemfileとGemfile.lockをコピー
-COPY Gemfile* ./
+# 環境変数を設定
+ENV LD_FLAGS="-L$(brew --prefix zstd)/lib"
 
 # Gemをインストール
 RUN bundle install
 
+ADD ./Gemfile Gemfile
+ADD ./Gemfile.lock Gemfile.lock
+
 # アプリコードをコピー
 COPY . .
 
-# ポート3000を公開
-EXPOSE 3000
+RUN rm -f /app/tmp/pids/server.pid
 
 # サーバを起動
 CMD ["rails", "server", "-b", "0.0.0.0"]
