@@ -61,6 +61,7 @@ docker-compose run app rails new . --force --database=mysql
 依存Gemのインストール
 
 ```jsx
+ gem install mysql2 -v 0.5.6 -- --with-ldflags=-L$(brew --prefix zstd)/lib
  bundle install
 ```
 
@@ -68,12 +69,6 @@ docker-compose run app rails new . --force --database=mysql
 
 - .envファイルをsrcディレクトリ直下に作成
 - 「.env.example」の内容を.envファイルにコピー
-
-**データベース作成**
-
-```
-docker-compose run app rails db:create
-```
 
 マイグレーション
 
